@@ -1,0 +1,13 @@
+Source: pb-zram
+Section: misc
+Priority: extra
+Maintainer: "Super" Nathan Weber <supernathansunshine@gmail.com>
+Build-Depends-Indep: debhelper (>= 5.0.0)
+Standards-Version: 3.9.0
+Homepage: http://pibanglinux.org/
+
+Package: pb-zram
+Architecture: all
+Description: Simple config to use zRAM instead of swap for porformance
+
+

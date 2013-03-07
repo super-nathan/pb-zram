@@ -1,0 +1,62 @@
+#!/bin/bash
+### BEGIN INIT INFO
+#Provides: zram
+#Required-Start:
+#Required-Stop:
+#Default-Start: 2 3 4 5
+#Default-Stop: 0 1 6 
+#Short-Description: Increased Performance In Linux With zRam
+#(Virtual Swap Compressed in RAM)
+#Description: Adapted for PiBang
+### END INIT INFO
+
+# Credit Given where credit is due
+#
+# This came from a Linux Journal article December 2012
+# Dutifuly copied and not modified by Super-Nathan
+
+start() {
+    mem_total_kb=$(grep MemTotal /proc/meminfo | grep -E --only-matching '[[:digit:]]+')
+
+    # load dependency modules
+    modprobe zram 
+    
+    sleep 1s
+    
+    
+    #use half of the ram avail. for zRam
+    mem_total_kb=$((mem_total_kb/2))
+    
+    
+    echo $((mem_total_kb * 1024 )) > /sys/block/zram0/disksize
+
+
+    # Creating swap filesystems
+    mkswap /dev/zram0
+
+    # Switch the swaps on
+    swapon -p 100 /dev/zram0
+}
+
+stop() {
+    swapoff /dev/zram0
+    sleep 1
+    rmmod zram
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        sleep 3
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        RETVAL=1
+esac
