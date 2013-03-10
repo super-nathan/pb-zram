@@ -13,7 +13,7 @@
 # Credit Given where credit is due
 #
 # This came from a Linux Journal article December 2012
-# Dutifuly copied and not modified by Super-Nathan
+# Dutifuly copied and modified by Super-Nathan
 
 start() {
     mem_total_kb=$(grep MemTotal /proc/meminfo | grep -E --only-matching '[[:digit:]]+')
